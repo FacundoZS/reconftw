@@ -834,9 +834,11 @@ all(){
 
 help(){
 	printf "\n Usage: $0 [-h] [-i] [-d DOMAIN] [-l list.txt] [-a] [-g] [-w] [-t]"
-	printf "\n           	      [-s] [--sp] [--sb] [--sr] [--ss] [--sw] [-v] [-o OUTPUT]\n\n"
+	printf "\n           	      [-s] [--sp] [--sb] [--sr] [--ss] [--sw] [-v] [-o OUTPUT]"
+	printf "\n        $0 DOMAIN [-a] [-g] [-w] [-t] [-s] [-v] [-o OUTPUT]\n\n"
 	printf " ${bblue}TARGET OPTIONS${reset}\n"
 	printf "   -d DOMAIN        Target domain\n"
+	printf "   DOMAIN           Target domain (positional argument)\n"
 	printf "   -l list.txt      Targets list, one per line\n"
 	printf " \n"
 	printf " ${bblue}MODE OPTIONS${reset}\n"
@@ -859,6 +861,9 @@ help(){
 	printf "   -o output/path   Define output folder\n"
 	printf " \n"
 	printf " ${bblue}USAGE EXAMPLES${reset}\n"
+	printf " Direct domain execution:\n"
+	printf " ./reconftw.sh hipotecario.com.ar -a\n"
+	printf " \n"
 	printf " Full recon with custom output:\n"
 	printf " ./reconftw.sh -d example.com -a -o custom/path\n"
 	printf " \n"
@@ -1009,3 +1014,10 @@ while getopts ":hd:-:l:vaisxwgto:" opt; do
 	esac
 done
 shift $((OPTIND -1))
+
+# If domain not set via -d flag, check for positional argument
+if [ -z "$domain" ] && [ -n "$1" ]
+then
+	domain=$1
+	shift
+fi
