@@ -1019,4 +1019,5 @@ shift $((OPTIND -1))
 if [ -z "$domain" ] && [ -n "$1" ]
 then
 	domain=$1
+	shift
 fi
